@@ -5,8 +5,29 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Document</title>
+
+        <link rel="stylesheet" href="style.css">
     </head>
     <body>
-        <script src="test.js"></script>
+        <form action="">
+            <input 
+            name="name" 
+            type="text" 
+            minlength="4" 
+            pattern="[a-zA-Z]+" 
+            title="Solo pueden ingresarse letras"
+        />
+
+        <input
+            name="email" 
+            type="email"
+            pattern="^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$"
+            title="ingresa patrón correcto"
+        />
+
+        <input type="submit">
+
+        <span class="a">prueba</span>
+        </form>
     </body>
 </html>
