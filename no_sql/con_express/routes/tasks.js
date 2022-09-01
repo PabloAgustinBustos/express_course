@@ -6,12 +6,13 @@ const {
     updateTask, 
     deleteTask 
 } = require("../controllers/tasks")
+const { validateName } = require("../controllers/validators")
 
 const router = Router()
 
 router.get("/", getAllTasks)
 router.get("/:id", getTask)
-router.post("/", createTask)
+router.post("/", validateName, createTask)
 router.patch("/:id", updateTask)
 router.delete("/:id", deleteTask)
 
