@@ -12,5 +12,5 @@ const validateName = (req, res, next) => {
 }
 
 module.exports={
-    validateName
+    validateName,
 }
