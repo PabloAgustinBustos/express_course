@@ -1,0 +1,76 @@
+*{
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.body{
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.form{
+    width: 700px;
+    height: 600px;
+    display: flex;
+    flex-direction: column;
+    background-color: aqua;
+}
+
+.info{
+    height: 800px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background-color: beige;
+}
+
+.labels, .inputs{
+    display: flex;
+    flex-direction: column;
+}
+
+.labels{
+    font-size: 35px;
+}
+
+.input{
+    width: 280px;
+    height: 35px;
+    font-size: 30px;
+    
+    outline: none;
+    border: 2px solid rgba(70, 70, 178, 0.5);
+
+    box-sizing: border-box;
+}
+
+.input:focus{
+    border-color: rgb(70, 70, 178);
+    animation-name: onFocus;
+    animation-duration: 2s;
+    
+}
+
+@keyframes onFocus {
+    from{
+        border-color: rgba(70, 70, 178, 0.5);
+        border-width: 2px;
+    }
+
+    to{
+        border-width: 1.8px;
+        border-color: rgba(70, 70, 178, 1);
+    }
+}
+
+label, .input{
+    margin-bottom: 200px;
+}
+
+button{
+    height: 150px;
+    font-size: 50px;
+}
