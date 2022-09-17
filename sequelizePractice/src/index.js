@@ -11,7 +11,7 @@ Task.belongsTo(Project)
 const start = async() => {
     try{        
         // trata de hacer una sincronización con la base de datos, para crear tablas, etc
-        await sequelize.sync({force: true})
+        await sequelize.sync({force: false})
 
         // sync() -> crea las tablas si no existen
         // sync({force: true}) -> sobreescribe las tablas

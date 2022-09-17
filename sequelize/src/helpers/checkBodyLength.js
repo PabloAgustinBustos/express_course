@@ -1,0 +1,1 @@
+module.exports = body => body.length > 0
