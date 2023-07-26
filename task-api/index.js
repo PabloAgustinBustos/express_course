@@ -1,9 +1,12 @@
 const express = require("express")
 const tasks = require("./routes/tasks.routes")
+
 require("dotenv")
 .config({
   path: `${__dirname}/.env`,
 })
+
+const connectDB = require("./db")
 
 const app = express()
 
@@ -31,5 +34,10 @@ app.get("/", (req, res) => {
 
 app.use("/api/v1", tasks)
 
-const port = process.env.PORT || 3001
-app.listen(port, () => console.log("server listening on port " + port))
+connectDB(process.env.MONGO_URI)
+.then(() => {
+  console.log("DB connected")
+  
+  const port = process.env.PORT || 3001
+  app.listen(port, () => console.log("server listening on port " + port))
+}).catch(e => console.log(e))

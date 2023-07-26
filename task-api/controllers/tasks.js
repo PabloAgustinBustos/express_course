@@ -4,7 +4,7 @@ module.exports = {
   },
 
   createTask: (req, res) => {
-    res.send("create task")
+    res.send(req.body)
   },
 
   getTask: (req, res) => {
