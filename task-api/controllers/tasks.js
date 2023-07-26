@@ -1,10 +1,17 @@
+const Task = require("../models/Task")
+
 module.exports = {
-  getAllTasks: (req, res) => {
+  getAllTasks: async(req, res) => {
     res.send("get tasks")
   },
 
-  createTask: (req, res) => {
-    res.send(req.body)
+  createTask: async(req, res) => {
+    const task = await Task.create(req.body)
+    
+    res.status(201).json({
+      status: "created",
+      task
+    })
   },
 
   getTask: (req, res) => {
