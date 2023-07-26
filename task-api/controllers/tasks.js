@@ -15,17 +15,34 @@ module.exports = {
     try{
       const task = await Task.create(req.body)
 
-      res.status(201).json({
+      return res.status(201).json({
         status: "created",
         task
       })
     }catch(e){
-      res.status(500).json(e)
+      return res.status(500).json(e)
     }
   },
 
-  getTask: (req, res) => {
-    res.send("get task")
+  getTask: async (req, res) => {
+    const {id} = req.params
+    
+    try{
+      const task = await Task.findOne({_id: id}, {name:1, completed: 1})
+      
+      if(!task){
+        return res.status(404).json({
+          status: "not found"
+        })
+      }
+
+      return res.status(200).json({
+        status: "found",
+        task
+      })
+    }catch(e){
+      return res.status(500).json(e)
+    }
   },
 
   updateTask: (req, res) => {
