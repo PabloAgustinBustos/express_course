@@ -1,92 +1,72 @@
+const asyncWrapper = require("../middlewares/async")
 const Task = require("../models/Task")
 
 module.exports = {
-  getAllTasks: async(req, res) => {
-    try{
-      const tasks = await Task.find({}, {name:1, completed: 1})
+  getAllTasks: asyncWrapper(async(req, res) => {
+    const tasks = await Task.find({}, {name:1, completed: 1})
+    res.json({tasks})
+  }),
+
+  createTask: asyncWrapper(async(req, res) => {
+    const task = await Task.create(req.body)
+
+    return res.status(201).json({
+      status: "created",
+      task
+    })
+  }),
+
+  getTask: asyncWrapper(async (req, res) => {
+    const {id} = req.params  
   
-      res.json({tasks})
-    }catch(e){
-      res.status(500).json(e)
-    }
-  },
-
-  createTask: async(req, res) => {
-    try{
-      const task = await Task.create(req.body)
-
-      return res.status(201).json({
-        status: "created",
-        task
+    const task = await Task.findOne({_id: id}, {name:1, completed: 1})
+    
+    if(!task){
+      return res.status(404).json({
+        status: "not found"
       })
-    }catch(e){
-      return res.status(500).json(e)
     }
-  },
 
-  getTask: async (req, res) => {
+    return res.status(200).json({
+      status: "found",
+      task
+    })
+  }),
+
+  updateTask: asyncWrapper(async(req, res) => {
     const {id} = req.params
     
-    try{
-      const task = await Task.findOne({_id: id}, {name:1, completed: 1})
-      
-      if(!task){
-        return res.status(404).json({
-          status: "not found"
-        })
+    const task = await Task.findOneAndUpdate(
+      {_id: id}, 
+
+      req.body, 
+
+      {
+        new: true,
+        runValidators: true
       }
+    )
 
-      return res.status(200).json({
-        status: "found",
-        task
-      })
-    }catch(e){
-      return res.status(500).json(e)
-    }
-  },
+    res.status(200).json({
+      status: "created",
+      task
+    })
+  }),
 
-  updateTask: async(req, res) => {
+  deleteTask: asyncWrapper(async (req, res) => {
     const {id} = req.params
 
-    try{  
-      const task = await Task.findOneAndUpdate(
-        {_id: id}, 
-        req.body, 
-        {
-          new: true,
+    const task = await Task.findOneAndDelete({_id: id})
 
-          runValidators: true
-        }
-      )
-
-      res.status(200).json({
-        status: "created",
-        task
+    if(!task){
+      return res.status(404).json({
+        status: "not found"
       })
-    }catch(e){
-      return res.status(500).json(e)
     }
-    
-  },
 
-  deleteTask: async (req, res) => {
-    const {id} = req.params
-
-    try{
-      const task = await Task.findOneAndDelete({_id: id})
-  
-      if(!task){
-        return res.status(404).json({
-          status: "not found"
-        })
-      }
-
-      res.status(200).json({
-        status: "deleted",
-        task
-      })
-    }catch(e){
-      return res.status(500).json(e)
-    }
-  }
+    res.status(200).json({
+      status: "deleted",
+      task
+    })
+  })
 }

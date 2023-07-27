@@ -1,12 +1,13 @@
 const express = require("express")
 const tasks = require("./routes/tasks.routes")
+const connectDB = require("./db")
+const errorHandler = require("./middlewares/errorHandler")
 
 require("dotenv")
 .config({
   path: `${__dirname}/.env`,
 })
 
-const connectDB = require("./db")
 
 const app = express()
 
@@ -33,6 +34,8 @@ app.get("/", (req, res) => {
 })
 
 app.use("/api/v1", tasks)
+
+app.use(errorHandler)
 
 connectDB(process.env.MONGO_URI)
 .then(() => {
